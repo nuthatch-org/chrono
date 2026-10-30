@@ -8,11 +8,14 @@ use core::fmt;
     feature = "now",
     not(all(
         target_arch = "wasm32",
-        feature = "wasmbind",
+        feature = "__wasmbind",
         not(any(target_os = "emscripten", target_os = "wasi", target_os = "linux"))
     ))
 ))]
+#[cfg(not(target_arch = "wasm32"))]
 use std::time::{SystemTime, UNIX_EPOCH};
+#[cfg(all(feature = "now", target_arch = "wasm32"))]
+use web_time::{SystemTime, UNIX_EPOCH};
 
 #[cfg(any(feature = "rkyv", feature = "rkyv-16", feature = "rkyv-32", feature = "rkyv-64"))]
 use rkyv::{Archive, Deserialize, Serialize};
@@ -88,7 +91,7 @@ impl Utc {
     /// ```
     #[cfg(not(all(
         target_arch = "wasm32",
-        feature = "wasmbind",
+        feature = "__wasmbind",
         not(any(target_os = "emscripten", target_os = "wasi", target_os = "linux"))
     )))]
     #[must_use]
@@ -101,7 +104,7 @@ impl Utc {
     /// Returns a `DateTime` which corresponds to the current date and time.
     #[cfg(all(
         target_arch = "wasm32",
-        feature = "wasmbind",
+        feature = "__wasmbind",
         not(any(target_os = "emscripten", target_os = "wasi", target_os = "linux"))
     ))]
     #[must_use]

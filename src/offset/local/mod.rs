@@ -36,7 +36,7 @@ mod tz_data;
     not(windows),
     not(all(
         target_arch = "wasm32",
-        feature = "wasmbind",
+        feature = "__wasmbind",
         not(any(target_os = "emscripten", target_os = "wasi"))
     ))
 ))]
@@ -58,7 +58,7 @@ mod inner {
 
 #[cfg(all(
     target_arch = "wasm32",
-    feature = "wasmbind",
+    feature = "__wasmbind",
     not(any(target_os = "emscripten", target_os = "wasi", target_os = "linux"))
 ))]
 mod inner {
